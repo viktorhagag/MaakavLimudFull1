@@ -8,87 +8,56 @@
 // include an id, title and the number of units. Completed units will be
 // initialised at runtime.
 const DEFAULT_DATA = {
+  // Single category: Bavli Gemara with all tractates and page counts.  The
+  // id values are transliterated for internal routing; titles are the
+  // traditional Hebrew names.  Units correspond to the number of
+  // dapim (pages) in the standard Vilna edition.  You can modify this
+  // list from the manage screen or via JSON import/export.
   categories: [
     {
       id: 'gemara',
-      name: 'גמרא',
+      name: 'גמרא (בבלי)',
       color: '#A66E31',
       tracks: [
-        { id: 'berakhot-gemara', title: 'ברכות', units: 64 },
-        { id: 'shabbat-gemara', title: 'שבת', units: 157 },
-        { id: 'eruvin-gemara', title: 'עירובין', units: 105 },
-        { id: 'pesachim-gemara', title: 'פסחים', units: 121 },
-        { id: 'shekalim-gemara', title: 'שקלים', units: 22 },
-        { id: 'yoma-gemara', title: 'יומא', units: 88 }
-      ]
-    },
-    {
-      id: 'mishnah',
-      name: 'משנה',
-      color: '#A66E31',
-      tracks: [
-        { id: 'berakhot-mishnah', title: 'ברכות', units: 9 },
-        { id: 'peah-mishnah', title: 'פאה', units: 8 },
-        { id: 'dmai-mishnah', title: 'דמאי', units: 7 },
-        { id: 'kilaayim-mishnah', title: 'כלאים', units: 9 },
-        { id: 'shabbat-mishnah', title: 'שבת', units: 24 },
-        { id: 'eruvin-mishnah', title: 'עירובין', units: 10 }
-      ]
-    },
-    {
-      id: 'tanakh',
-      name: 'תנ״ך',
-      color: '#007ACC',
-      tracks: [
-        { id: 'bereishit-tanakh', title: 'בראשית', units: 50 },
-        { id: 'shemot-tanakh', title: 'שמות', units: 40 },
-        { id: 'vayikra-tanakh', title: 'ויקרא', units: 27 },
-        { id: 'bamidbar-tanakh', title: 'במדבר', units: 36 },
-        { id: 'devarim-tanakh', title: 'דברים', units: 34 },
-        { id: 'yehoshua-tanakh', title: 'יהושע', units: 24 },
-        { id: 'shoftim-tanakh', title: 'שופטים', units: 21 },
-        { id: 'ruth-tanakh', title: 'רות', units: 4 },
-        { id: 'tehilim-tanakh', title: 'תהילים', units: 150 },
-        { id: 'mishlei-tanakh', title: 'משלי', units: 31 }
-      ]
-    },
-    {
-      id: 'rambam',
-      name: 'רמב״ם',
-      color: '#E59500',
-      tracks: [
-        { id: 'yesodei-torah', title: 'הלכות יסודי התורה', units: 10 },
-        { id: 'deot', title: 'הלכות דעות', units: 7 },
-        { id: 'talmud-torah', title: 'הלכות תלמוד תורה', units: 7 },
-        { id: 'avoda-zara', title: 'הלכות עבודה זרה וחוקות הגויים', units: 12 },
-        { id: 'teshuva', title: 'הלכות תשובה', units: 10 },
-        { id: 'keriat-shema', title: 'הלכות קריאת שמע', units: 4 },
-        { id: 'tefila', title: 'הלכות תפילה וברכת כהנים', units: 15 },
-        { id: 'tefillin', title: 'הלכות תפילין, מזוזה וספר תורה', units: 10 },
-        { id: 'tzitzit', title: 'הלכות ציצית', units: 3 },
-        { id: 'berachot-halacha', title: 'הלכות ברכות', units: 11 }
-      ]
-    },
-    {
-      id: 'shulchan_aruch',
-      name: 'שולחן ערוך',
-      color: '#FFA500',
-      tracks: [
-        { id: 'orach-chaim', title: 'אורח חיים', units: 697 },
-        { id: 'yoreh-deah', title: 'יורה דעה', units: 397 },
-        { id: 'even-haezer', title: 'אבן העזר', units: 178 },
-        { id: 'choshen-mishpat', title: 'חושן משפט', units: 427 }
-      ]
-    },
-    {
-      id: 'yerushalmi',
-      name: 'ירושלמי',
-      color: '#8A8A8A',
-      tracks: [
-        { id: 'berakhot-yerushalmi', title: 'ברכות (ירושלמי)', units: 68 },
-        { id: 'peah-yerushalmi', title: 'פאה (ירושלמי)', units: 64 },
-        { id: 'shekalim-yerushalmi', title: 'שקלים (ירושלמי)', units: 68 },
-        { id: 'yoma-yerushalmi', title: 'יומא (ירושלמי)', units: 71 }
+        { id: 'berakhot',    title: 'ברכות',        units: 64 },
+        { id: 'shabbat',     title: 'שבת',           units: 157 },
+        { id: 'eruvin',      title: 'עירובין',       units: 105 },
+        { id: 'pesachim',    title: 'פסחים',         units: 121 },
+        { id: 'shekalim',    title: 'שקלים',         units: 22 },
+        { id: 'yoma',        title: 'יומא',           units: 88 },
+        { id: 'sukkah',      title: 'סוכה',           units: 56 },
+        { id: 'beitza',      title: 'ביצה',           units: 40 },
+        { id: 'rosh-hashanah', title: 'ראש השנה',     units: 35 },
+        { id: 'taanit',      title: 'תענית',         units: 31 },
+        { id: 'megillah',    title: 'מגילה',         units: 32 },
+        { id: 'moed-katan',  title: 'מועד קטן',       units: 29 },
+        { id: 'chagigah',    title: 'חגיגה',         units: 27 },
+        { id: 'yevamot',     title: 'יבמות',         units: 122 },
+        { id: 'ketubot',     title: 'כתובות',         units: 112 },
+        { id: 'nedarim',     title: 'נדרים',         units: 91 },
+        { id: 'nazir',       title: 'נזיר',           units: 66 },
+        { id: 'sotah',       title: 'סוטה',           units: 49 },
+        { id: 'gittin',      title: 'גיטין',          units: 90 },
+        { id: 'kiddushin',   title: 'קידושין',        units: 82 },
+        { id: 'bava-kamma',  title: 'בבא קמא',        units: 119 },
+        { id: 'bava-metzia', title: 'בבא מציעא',      units: 119 },
+        { id: 'bava-batra',  title: 'בבא בתרא',       units: 176 },
+        { id: 'sanhedrin',   title: 'סנהדרין',        units: 113 },
+        { id: 'makot',       title: 'מכות',           units: 24 },
+        { id: 'shevuot',     title: 'שבועות',         units: 49 },
+        { id: 'avodah-zarah',title: 'עבודה זרה',      units: 76 },
+        { id: 'horayot',     title: 'הוריות',         units: 14 },
+        { id: 'zevachim',    title: 'זבחים',          units: 120 },
+        { id: 'menachot',    title: 'מנחות',          units: 110 },
+        { id: 'chullin',     title: 'חולין',          units: 142 },
+        { id: 'bekhorot',    title: 'בכורות',         units: 61 },
+        { id: 'arachin',     title: 'ערכין',          units: 34 },
+        { id: 'temurah',     title: 'תמורה',          units: 34 },
+        { id: 'keritot',     title: 'כריתות',         units: 28 },
+        { id: 'meilah',      title: 'מעילה',          units: 22 },
+        { id: 'kinnim',      title: 'קנים',           units: 3 },
+        { id: 'tamid',       title: 'תמיד',           units: 10 },
+        { id: 'midot',       title: 'מידות',          units: 4 }
       ]
     }
   ]
@@ -444,16 +413,46 @@ function updateProgressBarForTrack(category, track) {
 // Convert unit index to a label based on category type
 function getUnitLabel(categoryId, index) {
   // For gemara and yerushalmi use 'דף'; for shulchan_aruch use 'סעיף'; otherwise 'פרק'
-  let prefix;
-  if (categoryId === 'gemara' || categoryId === 'yerushalmi') {
-    prefix = 'דף ';
-  } else if (categoryId === 'shulchan_aruch') {
-    prefix = 'סעיף ';
-  } else {
-    prefix = 'פרק ';
+  // When displaying Gemara page numbers we convert to Hebrew letters (e.g. א, ב, ג).
+  if (categoryId === 'gemara') {
+    return 'דף ' + toHebrewNumeral(index + 1);
   }
-  // Arabic numeral (1-based)
-  return prefix + (index + 1);
+  if (categoryId === 'shulchan_aruch') {
+    return 'סעיף ' + (index + 1);
+  }
+  // Default for other categories (if any added via manage)
+  return 'פרק ' + (index + 1);
+}
+
+// Convert an integer to a Hebrew numeral string (gematria).  Handles values
+// up to a few hundred. The algorithm builds letters for hundreds, tens and
+// units and special‑cases 15 and 16 to avoid combinations that spell the
+// divine name. See https://en.wikipedia.org/wiki/Hebrew_numerals for details.
+function toHebrewNumeral(n) {
+  if (typeof n !== 'number' || !Number.isFinite(n) || n <= 0) return '';
+  // Special cases for 15 and 16
+  if (n % 100 === 15) return toHebrewNumeral(n - 15) + 'טו';
+  if (n % 100 === 16) return toHebrewNumeral(n - 16) + 'טז';
+  let result = '';
+  // Hundreds (repeat ק for each 100). For numbers beyond 400 this is a
+  // simplistic approach but sufficient for our page ranges (<200).
+  const hundreds = Math.floor(n / 100);
+  if (hundreds > 0) {
+    result += 'ק'.repeat(hundreds);
+  }
+  let remainder = n % 100;
+  // Tens
+  const tens = Math.floor(remainder / 10);
+  const units = remainder % 10;
+  const tensLetters = ['', 'י', 'כ', 'ל', 'מ', 'נ', 'ס', 'ע', 'פ', 'צ'];
+  const unitLetters = ['', 'א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט'];
+  if (tens > 0) {
+    result += tensLetters[tens];
+  }
+  if (units > 0) {
+    result += unitLetters[units];
+  }
+  return result;
 }
 
 // ========== Manage screen ==========

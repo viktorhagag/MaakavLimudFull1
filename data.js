@@ -7,84 +7,48 @@ export const DEFAULT_DATA = {
   categories: [
     {
       id: 'gemara',
-      name: 'גמרא',
+      name: 'גמרא (בבלי)',
       color: '#A66E31',
       tracks: [
-        { id: 'berakhot-gemara', title: 'ברכות', units: 64 },
-        { id: 'shabbat-gemara', title: 'שבת', units: 157 },
-        { id: 'eruvin-gemara', title: 'עירובין', units: 105 },
-        { id: 'pesachim-gemara', title: 'פסחים', units: 121 },
-        { id: 'shekalim-gemara', title: 'שקלים', units: 22 },
-        { id: 'yoma-gemara', title: 'יומא', units: 88 }
-      ]
-    },
-    {
-      id: 'mishnah',
-      name: 'משנה',
-      color: '#A66E31',
-      tracks: [
-        { id: 'berakhot-mishnah', title: 'ברכות', units: 9 },
-        { id: 'peah-mishnah', title: 'פאה', units: 8 },
-        { id: 'dmai-mishnah', title: 'דמאי', units: 7 },
-        { id: 'kilaayim-mishnah', title: 'כלאים', units: 9 },
-        { id: 'shabbat-mishnah', title: 'שבת', units: 24 },
-        { id: 'eruvin-mishnah', title: 'עירובין', units: 10 }
-      ]
-    },
-    {
-      id: 'tanakh',
-      name: 'תנ״ך',
-      color: '#007ACC',
-      tracks: [
-        { id: 'bereishit-tanakh', title: 'בראשית', units: 50 },
-        { id: 'shemot-tanakh', title: 'שמות', units: 40 },
-        { id: 'vayikra-tanakh', title: 'ויקרא', units: 27 },
-        { id: 'bamidbar-tanakh', title: 'במדבר', units: 36 },
-        { id: 'devarim-tanakh', title: 'דברים', units: 34 },
-        { id: 'yehoshua-tanakh', title: 'יהושע', units: 24 },
-        { id: 'shoftim-tanakh', title: 'שופטים', units: 21 },
-        { id: 'ruth-tanakh', title: 'רות', units: 4 },
-        { id: 'tehilim-tanakh', title: 'תהילים', units: 150 },
-        { id: 'mishlei-tanakh', title: 'משלי', units: 31 }
-      ]
-    },
-    {
-      id: 'rambam',
-      name: 'רמב״ם',
-      color: '#E59500',
-      tracks: [
-        { id: 'yesodei-torah', title: 'הלכות יסודי התורה', units: 10 },
-        { id: 'deot', title: 'הלכות דעות', units: 7 },
-        { id: 'talmud-torah', title: 'הלכות תלמוד תורה', units: 7 },
-        { id: 'avoda-zara', title: 'הלכות עבודה זרה וחוקות הגויים', units: 12 },
-        { id: 'teshuva', title: 'הלכות תשובה', units: 10 },
-        { id: 'keriat-shema', title: 'הלכות קריאת שמע', units: 4 },
-        { id: 'tefila', title: 'הלכות תפילה וברכת כהנים', units: 15 },
-        { id: 'tefillin', title: 'הלכות תפילין, מזוזה וספר תורה', units: 10 },
-        { id: 'tzitzit', title: 'הלכות ציצית', units: 3 },
-        { id: 'berachot-halacha', title: 'הלכות ברכות', units: 11 }
-      ]
-    },
-    {
-      id: 'shulchan_aruch',
-      name: 'שולחן ערוך',
-      color: '#FFA500',
-      tracks: [
-        { id: 'orach-chaim', title: 'אורח חיים', units: 697 },
-        { id: 'yoreh-deah', title: 'יורה דעה', units: 397 },
-        { id: 'even-haezer', title: 'אבן העזר', units: 178 },
-        { id: 'choshen-mishpat', title: 'חושן משפט', units: 427 }
-      ]
-    },
-    {
-      id: 'yerushalmi',
-      name: 'ירושלמי',
-      color: '#8A8A8A',
-      tracks: [
-        { id: 'berakhot-yerushalmi', title: 'ברכות (ירושלמי)', units: 68 },
-        { id: 'peah-yerushalmi', title: 'פאה (ירושלמי)', units: 64 },
-        { id: 'shekalim-yerushalmi', title: 'שקלים (ירושלמי)', units: 68 },
-        { id: 'yoma-yerushalmi', title: 'יומא (ירושלמי)', units: 71 }
+        { id: 'berakhot',    title: 'ברכות',        units: 64 },
+        { id: 'shabbat',     title: 'שבת',           units: 157 },
+        { id: 'eruvin',      title: 'עירובין',       units: 105 },
+        { id: 'pesachim',    title: 'פסחים',         units: 121 },
+        { id: 'shekalim',    title: 'שקלים',         units: 22 },
+        { id: 'yoma',        title: 'יומא',           units: 88 },
+        { id: 'sukkah',      title: 'סוכה',           units: 56 },
+        { id: 'beitza',      title: 'ביצה',           units: 40 },
+        { id: 'rosh-hashanah', title: 'ראש השנה',     units: 35 },
+        { id: 'taanit',      title: 'תענית',         units: 31 },
+        { id: 'megillah',    title: 'מגילה',         units: 32 },
+        { id: 'moed-katan',  title: 'מועד קטן',       units: 29 },
+        { id: 'chagigah',    title: 'חגיגה',         units: 27 },
+        { id: 'yevamot',     title: 'יבמות',         units: 122 },
+        { id: 'ketubot',     title: 'כתובות',         units: 112 },
+        { id: 'nedarim',     title: 'נדרים',         units: 91 },
+        { id: 'nazir',       title: 'נזיר',           units: 66 },
+        { id: 'sotah',       title: 'סוטה',           units: 49 },
+        { id: 'gittin',      title: 'גיטין',          units: 90 },
+        { id: 'kiddushin',   title: 'קידושין',        units: 82 },
+        { id: 'bava-kamma',  title: 'בבא קמא',        units: 119 },
+        { id: 'bava-metzia', title: 'בבא מציעא',      units: 119 },
+        { id: 'bava-batra',  title: 'בבא בתרא',       units: 176 },
+        { id: 'sanhedrin',   title: 'סנהדרין',        units: 113 },
+        { id: 'makot',       title: 'מכות',           units: 24 },
+        { id: 'shevuot',     title: 'שבועות',         units: 49 },
+        { id: 'avodah-zarah',title: 'עבודה זרה',      units: 76 },
+        { id: 'horayot',     title: 'הוריות',         units: 14 },
+        { id: 'zevachim',    title: 'זבחים',          units: 120 },
+        { id: 'menachot',    title: 'מנחות',          units: 110 },
+        { id: 'chullin',     title: 'חולין',          units: 142 },
+        { id: 'bekhorot',    title: 'בכורות',         units: 61 },
+        { id: 'arachin',     title: 'ערכין',          units: 34 },
+        { id: 'temurah',     title: 'תמורה',          units: 34 },
+        { id: 'keritot',     title: 'כריתות',         units: 28 },
+        { id: 'meilah',      title: 'מעילה',          units: 22 },
+        { id: 'kinnim',      title: 'קנים',           units: 3 },
+        { id: 'tamid',       title: 'תמיד',           units: 10 },
+        { id: 'midot',       title: 'מידות',          units: 4 }
       ]
     }
   ]
