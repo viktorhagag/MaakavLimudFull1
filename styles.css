@@ -1,0 +1,266 @@
+/*
+ * Styles for the Torah Tracker web application.
+ * The design aims to replicate a clean, card‑based interface inspired by
+ * modern mobile apps. The layout supports right‑to‑left languages and is
+ * accessible via keyboard and screen readers.
+ */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: "Arial", sans-serif;
+  background-color: #fafafa;
+  color: #1a1a1a;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Header */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+
+.manage-btn {
+  font-size: 1.2rem;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+.manage-btn:focus {
+  outline: 2px solid #007ACC;
+  outline-offset: 2px;
+}
+
+/* Main content */
+.app-content {
+  padding: 1rem;
+  height: calc(100vh - 4rem);
+  overflow-y: auto;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Card styles */
+.card {
+  position: relative;
+  background-color: #f5f5f5;
+  border-radius: 0.75rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.card:hover {
+  background-color: #eaeaea;
+}
+
+.card-accent {
+  width: 0.5rem;
+  height: 100%;
+  border-top-left-radius: 0.75rem;
+  border-bottom-left-radius: 0.75rem;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.card-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 0.75rem;
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.card-progress {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 0.9rem;
+}
+
+.progress-bar-container {
+  width: 5rem;
+  height: 0.4rem;
+  background-color: #e0e0e0;
+  border-radius: 0.25rem;
+  margin-top: 0.25rem;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 0.25rem;
+}
+
+/* Unit list */
+.unit-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0.5rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.unit-label {
+  font-size: 1rem;
+}
+
+.unit-check {
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.unit-check.checked {
+  background-color: #4caf50;
+  border-color: #4caf50;
+  color: #ffffff;
+}
+
+.unit-check.checked::after {
+  content: '\2713';
+  font-size: 0.9rem;
+}
+
+/* Buttons */
+.button {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  margin: 0.3rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: #007ACC;
+  color: #ffffff;
+}
+
+.btn-secondary {
+  background-color: #e0e0e0;
+  color: #333333;
+}
+
+.btn-danger {
+  background-color: #d9534f;
+  color: #ffffff;
+}
+
+/* Manage screen */
+.manage-container {
+  padding: 1rem;
+}
+.manage-category {
+  margin-bottom: 1rem;
+}
+.manage-category-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.manage-category-title {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.manage-track-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0 0;
+}
+.manage-track-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.3rem 0;
+}
+
+/* Modal overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.modal {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  max-width: 90%;
+  width: 24rem;
+}
+.modal h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+.modal label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: bold;
+}
+.modal input[type="text"],
+.modal input[type="number"],
+.modal input[type="color"] {
+  width: 100%;
+  padding: 0.4rem;
+  margin-bottom: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  direction: rtl;
+}
+.modal-actions {
+  display: flex;
+  justify-content: flex-start;
+}
+.modal-actions .button {
+  margin-right: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (min-width: 600px) {
+  .progress-bar-container {
+    width: 7rem;
+  }
+}
