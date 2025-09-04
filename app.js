@@ -107,6 +107,46 @@ function loadData() {
     try {
       data = JSON.parse(stored);
       // Ensure each track has a completed array; if not, initialise it
+      // Upgrade stored data with any new categories/tracks or updated properties from DEFAULT_DATA.
+      // For each default category, merge into stored data.
+      for (const defCat of DEFAULT_DATA.categories) {
+        // Find matching category by id
+        let storedCat = data.categories.find(c => c.id === defCat.id);
+        if (!storedCat) {
+          // Deep copy category and initialise completed arrays
+          const newCat = JSON.parse(JSON.stringify(defCat));
+          for (const trk of newCat.tracks) {
+            trk.completed = new Array(trk.units).fill(false);
+          }
+          data.categories.push(newCat);
+          continue;
+        }
+        // Merge tracks
+        for (const defTrack of defCat.tracks) {
+          let storedTrack = storedCat.tracks.find(t => t.id === defTrack.id);
+          if (!storedTrack) {
+            const newTrack = JSON.parse(JSON.stringify(defTrack));
+            newTrack.completed = new Array(newTrack.units).fill(false);
+            storedCat.tracks.push(newTrack);
+            continue;
+          }
+          // Update seder property
+          if (defTrack.seder) {
+            storedTrack.seder = defTrack.seder;
+          }
+          // Update units and completed array length if different
+          if (typeof storedTrack.units !== 'number' || storedTrack.units !== defTrack.units) {
+            const oldCompleted = Array.isArray(storedTrack.completed) ? storedTrack.completed.slice() : [];
+            storedTrack.units = defTrack.units;
+            storedTrack.completed = new Array(defTrack.units).fill(false);
+            // Preserve previous completions up to the new length
+            for (let i = 0; i < Math.min(oldCompleted.length, defTrack.units); i++) {
+              storedTrack.completed[i] = oldCompleted[i];
+            }
+          }
+        }
+      }
+      // Ensure each stored track has a completed array of correct length
       for (const category of data.categories) {
         for (const track of category.tracks) {
           if (!Array.isArray(track.completed) || track.completed.length !== track.units) {
@@ -114,6 +154,7 @@ function loadData() {
           }
         }
       }
+      saveData();
       return;
     } catch (e) {
       console.error('Failed to parse stored data, resetting.', e);
@@ -160,6 +201,13 @@ function render() {
     const categoryId = parts[0];
     const trackId = parts[1];
     renderTrackPage(categoryId, trackId);
+  } else if (hash.startsWith('#seder-')) {
+    // Format: #seder-{categoryId}~{sederName}
+    const rest = decodeURIComponent(hash.substring('#seder-'.length));
+    const parts = rest.split('~');
+    const categoryId = parts[0];
+    const sederName = parts[1];
+    renderSederPage(categoryId, sederName);
   } else if (hash === '#manage') {
     renderManage();
   } else {
@@ -251,13 +299,73 @@ function renderCategoryPage(catId) {
     renderHome();
     return;
   }
+  // If tracks define a 'seder' property, show an intermediate list of sedarim first.
+  const hasSeder = category.tracks.some(t => t.seder);
   pageTitle.textContent = category.name;
-  // Show back button; hide manage button because manage is accessible via gear on home
-  manageBtn.style.display = '';
+  // Show back button when viewing a category
   header.insertBefore(backBtn, pageTitle);
-  // Category tracks list
+  manageBtn.style.display = '';
+  // Container for content
   const list = document.createElement('ul');
   list.className = 'list';
+  if (hasSeder) {
+    // List sedarim in a fixed order
+    const sedarimOrder = ['זרעים','מועד','נשים','נזיקין','קדשים','טהרות'];
+    for (const sederName of sedarimOrder) {
+      const tracksInSeder = category.tracks.filter(t => t.seder === sederName);
+      if (tracksInSeder.length === 0) continue;
+      // Compute aggregated progress across all tracks in this seder
+      let sederCompleted = 0;
+      let sederTotal = 0;
+      for (const t of tracksInSeder) {
+        const prog = getTrackProgress(t);
+        sederCompleted += prog.completed;
+        sederTotal += prog.total;
+      }
+      const percent = sederTotal === 0 ? 0 : Math.floor((sederCompleted / sederTotal) * 100);
+      const li = document.createElement('li');
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.addEventListener('click', () => {
+        // Navigate to seder page: #seder-{catId}~{sederName}
+        window.location.hash = `#seder-${encodeURIComponent(category.id)}~${encodeURIComponent(sederName)}`;
+      });
+      const accent = document.createElement('div');
+      accent.className = 'card-accent';
+      accent.style.backgroundColor = category.color;
+      card.appendChild(accent);
+      const cardContent = document.createElement('div');
+      cardContent.className = 'card-content';
+      const title = document.createElement('span');
+      title.className = 'card-title';
+      title.textContent = sederName;
+      cardContent.appendChild(title);
+      const progDiv = document.createElement('div');
+      progDiv.className = 'card-progress';
+      const percentSpan = document.createElement('span');
+      percentSpan.textContent = `${percent}%`;
+      const ratioSpan = document.createElement('span');
+      ratioSpan.style.fontSize = '0.8rem';
+      ratioSpan.textContent = `${sederCompleted}/${sederTotal}`;
+      progDiv.appendChild(percentSpan);
+      progDiv.appendChild(ratioSpan);
+      const barContainer = document.createElement('div');
+      barContainer.className = 'progress-bar-container';
+      const barFill = document.createElement('div');
+      barFill.className = 'progress-bar-fill';
+      barFill.style.backgroundColor = category.color;
+      barFill.style.width = `${percent}%`;
+      barContainer.appendChild(barFill);
+      progDiv.appendChild(barContainer);
+      cardContent.appendChild(progDiv);
+      card.appendChild(cardContent);
+      li.appendChild(card);
+      list.appendChild(li);
+    }
+    content.appendChild(list);
+    return;
+  }
+  // Otherwise show tracks directly
   for (const track of category.tracks) {
     const { completed, total } = getTrackProgress(track);
     const percent = total === 0 ? 0 : Math.floor((completed / total) * 100);
@@ -265,7 +373,6 @@ function renderCategoryPage(catId) {
     const card = document.createElement('div');
     card.className = 'card';
     card.addEventListener('click', () => {
-      // Use ~ as separator to avoid dash conflicts
       window.location.hash = `#track-${encodeURIComponent(category.id)}~${encodeURIComponent(track.id)}`;
     });
     const accent = document.createElement('div');
@@ -401,6 +508,65 @@ function renderTrackPage(catId, trackId) {
   content.appendChild(progText);
   // Save once to persist new values from previous actions
   saveData();
+}
+
+// Render page showing tracks within a specific seder of a category
+function renderSederPage(catId, sederName) {
+  const category = data.categories.find(c => c.id === catId);
+  if (!category) {
+    renderHome();
+    return;
+  }
+  pageTitle.textContent = sederName;
+  // Show back button
+  header.insertBefore(backBtn, pageTitle);
+  manageBtn.style.display = '';
+  const list = document.createElement('ul');
+  list.className = 'list';
+  // Filter tracks by the selected seder
+  const tracksInSeder = category.tracks.filter(t => t.seder === sederName);
+  for (const track of tracksInSeder) {
+    const { completed, total } = getTrackProgress(track);
+    const percent = total === 0 ? 0 : Math.floor((completed / total) * 100);
+    const li = document.createElement('li');
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.addEventListener('click', () => {
+      window.location.hash = `#track-${encodeURIComponent(catId)}~${encodeURIComponent(track.id)}`;
+    });
+    const accent = document.createElement('div');
+    accent.className = 'card-accent';
+    accent.style.backgroundColor = category.color;
+    card.appendChild(accent);
+    const cardContent = document.createElement('div');
+    cardContent.className = 'card-content';
+    const title = document.createElement('span');
+    title.className = 'card-title';
+    title.textContent = track.title;
+    cardContent.appendChild(title);
+    const progDiv = document.createElement('div');
+    progDiv.className = 'card-progress';
+    const percentSpan = document.createElement('span');
+    percentSpan.textContent = `${percent}%`;
+    const ratioSpan = document.createElement('span');
+    ratioSpan.style.fontSize = '0.8rem';
+    ratioSpan.textContent = `${completed}/${total}`;
+    progDiv.appendChild(percentSpan);
+    progDiv.appendChild(ratioSpan);
+    const barContainer = document.createElement('div');
+    barContainer.className = 'progress-bar-container';
+    const barFill = document.createElement('div');
+    barFill.className = 'progress-bar-fill';
+    barFill.style.backgroundColor = category.color;
+    barFill.style.width = `${percent}%`;
+    barContainer.appendChild(barFill);
+    progDiv.appendChild(barContainer);
+    cardContent.appendChild(progDiv);
+    card.appendChild(cardContent);
+    li.appendChild(card);
+    list.appendChild(li);
+  }
+  content.appendChild(list);
 }
 
 // Update progress bar for track and its parent category after toggling a unit.
